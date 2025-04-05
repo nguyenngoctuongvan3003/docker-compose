@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: my-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Root password
+      MYSQL_USER: user  # Username
+      MYSQL_PASSWORD: password  # Password
+      MYSQL_DATABASE: mydb  # Database name
+    ports:
+      - "3306:3306"  # Mở port 3306 để kết nối MySQL từ ngoài container
+    volumes:
+      - mysql-data:/var/lib/mysql  # Lưu trữ dữ liệu MySQL giữa các lần restart container
+    restart: always  # Khởi động lại container khi cần thiết
+
+volumes:
+  mysql-data:
+    driver: local
