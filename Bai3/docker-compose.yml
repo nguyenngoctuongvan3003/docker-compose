@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: my-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Mật khẩu root MySQL
+      MYSQL_USER: user  # Tên người dùng
+      MYSQL_PASSWORD: password  # Mật khẩu cho user
+      MYSQL_DATABASE: mydb  # Tên cơ sở dữ liệu
+    ports:
+      - "3306:3306"  # Cổng kết nối MySQL từ bên ngoài
+    volumes:
+      - mysql-data:/var/lib/mysql  # Dữ liệu MySQL được lưu trên volume
+    restart: always  # Khởi động lại container khi cần thiết
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container
+    environment:
+      PMA_HOST: mysql  # Tên dịch vụ MySQL trong Docker Compose
+      PMA_PORT: 3306  # Cổng MySQL
+    ports:
+      - "8081:80"  # Mở cổng 8081 để truy cập PHPMyAdmin từ trình duyệt
+    restart: always  # Khởi động lại container khi cần thiết
+
+volumes:
+  mysql-data:
+    driver: local
